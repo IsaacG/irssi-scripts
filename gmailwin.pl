@@ -27,6 +27,7 @@ sub gmail_login
     my ($input, $server, $window) = @_;
     my ($username, $password) = split(/\s+/, $input);
     return Irssi::print('Usage: /gmail_login address@gmail.com password', MSGLEVEL_CLIENTCRAP) unless ($username and $password);
+    gmail_stop();
     check_gmail([$username, $password]);
     $timertag = Irssi::timeout_add(Irssi::settings_get_time("gmail_time"), check_gmail, [$username, $password]);
 }
@@ -42,6 +43,8 @@ sub check_gmail
 {
     my $data = shift;
     my ($username, $password) = @{$data};
+    my $oldest = 0;
+    my $skip = 0;
     $window = Irssi::window_find_name('gmail') or return;
 
     my $cmd = sprintf('curl -u "%s:%s" --silent "https://mail.google.com/mail/feed/atom"', $username, $password);
@@ -71,7 +74,8 @@ sub check_gmail
             $date = $token->[1];
             $date =~ /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)Z/;
             $date = timelocal($6, $5, $4, $3, $2, $1);
-            last if ($date < $lastcheck);
+            $oldest = $date if ($date > $oldest);
+            $skip = 1 if ($date <= $lastcheck);
         }
         if ($token->[0] eq "S" and $token->[1] eq "author")
         {
@@ -81,12 +85,13 @@ sub check_gmail
         }
         if ($token->[0] eq "E" and $token->[1] eq "entry")
         {
-            $window->print("$from: $title" . ($summary ? " [$summary]" : ""), MSGLEVEL_CLIENTCRAP);
+            $window->print("$from: $title" . ($summary ? " [$summary]" : ""), MSGLEVEL_CLIENTCRAP) unless ($skip);
+            $skip = 0;
         }
 
     }
 
-    $lastcheck = time;
+    $lastcheck = $oldest;
 }
 
 $window = Irssi::window_find_name('gmail') or Irssi::print("Create a window named 'gmail'");
