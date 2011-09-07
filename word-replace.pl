@@ -1,6 +1,8 @@
 # Signal stuff stolen from scrmable.pl
 # Line processing from shabble's aspell.pl
 # `/completion -auto` does this mostly for you
+# This dictionary file is an INI style file borrowed initially from an mIRC spellcheck script, updated over time
+# The script looks for a "pxdict.ini" in your irssi directory (~/.irssi)
 
 use warnings;
 use strict;
