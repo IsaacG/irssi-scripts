@@ -18,6 +18,7 @@ use vars qw(%IRSSI);
 
 sub cmd_channotify
 {
+	my (%on, %care);
 	for my $nick (map {$_->{nick}} (map {$_->nicks} Irssi::channels()))
 	{
 		$on{$nick} = 1
