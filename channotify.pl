@@ -25,7 +25,7 @@ sub cmd_channotify
 	}
 	for my $notify (map {$_->{mask}} Irssi::Irc::notifies())
 	{
-		$care{$_} = 1 if $on{$_}
+		$care{$notify} = 1 if $on{$notify}
 	}
 	Irssi::print("People on your channels: " . join ", ", keys %care)
 }
