@@ -4,6 +4,8 @@ use strict;
 use Irssi;
 use LWP::UserAgent;
 
+use Data::Dumper;
+
 use vars qw($VERSION %IRSSI);
 
 $VERSION = "0.2";
@@ -21,23 +23,29 @@ my $ua = LWP::UserAgent->new(
 my $regex   = qr{\b((?:https?://|www\.)[-~=\/a-zA-Z0-9.:_?&%,#+]+)\b};
 
 
-sub event_privmsg {
-    my ($server, $data, $nick, $address) = @_;
-    my ($target, $msg) = split(/ :/, $data, 2);
+sub message_public {
+    my ($server, $msg, $nick, $mask, $target) = @_;
 
-    for my $url ($msg =~ /$regex/g)
-    {
-		$url = "http://$url" unless ( $url =~ qr(^https?://) );
+	my $out = "";
+	my ($word, $ws, $title, $response);
+	while ($msg =~ m/\G(\S+)(\s*)/g)
+	{
+		($word, $ws) = ($1, $2); # word, whitespace
+		next unless ($word =~ /^$regex$/g);
+		$word = "http://$word" unless ( $word =~ qr(^https?://) );
 
-		my $response;
-		eval{ $response = $ua->get($url) };
-		return if( $@ or $response->code() != 200 );
-		return if( $response->header('content-type') !~ qr{^text/html} );
-		my $title = $response->title() or return;
-		my $win = Irssi::window_find_item($target) or return;
-		$win->print(sprintf("%s [%s]", $title, $url));
+		eval{ $response = $ua->get($word) };
+		next if( $@ or $response->code() != 200 );
+		next if( $response->header('content-type') !~ qr{^text/html} );
+		$title = $response->title() or next;
+
+		$word = sprintf("'%s' [%s]", $title, $word);
+	} continue {
+		$out .= $word . $ws;
 	}
+	Irssi::signal_continue($server, $out, $nick, $mask, $target);
+	print $out;
 }
 
-Irssi::signal_add_last('event privmsg', \&event_privmsg);
+Irssi::signal_add('message public', \&message_public);
 
