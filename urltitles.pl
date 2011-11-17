@@ -39,5 +39,5 @@ sub event_privmsg {
 	}
 }
 
-Irssi::signal_add('event privmsg', \&event_privmsg);
+Irssi::signal_add_last('event privmsg', \&event_privmsg);
 
