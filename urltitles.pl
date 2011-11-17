@@ -44,7 +44,6 @@ sub message_public {
 		$out .= $word . $ws;
 	}
 	Irssi::signal_continue($server, $out, $nick, $mask, $target);
-	print $out;
 }
 
 Irssi::signal_add('message public', \&message_public);
