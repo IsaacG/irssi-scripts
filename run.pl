@@ -13,7 +13,7 @@ my @commands = (
     [ '!trs', '#rss-spam', '~/bin/transmission-status' ],
     [ '!size', '#ttest', 'printf "Items in home dir: "; ls ~/ -1 | wc -l' ],
     [ '!upt', '#ttest', 'uptime' ],
-    [ '!demonoid', '#rss-spam', '~/bin/demonoid' ],
+    [ '!demonoid', '#rss-spam', '~/bin/testing' ],
 );
 $channel = '#ttest';
 
@@ -37,7 +37,7 @@ sub event_privmsg {
         printf("Can not find window %s for trigger %s -> %s", $cmd->[1], $cmd->[0], $cmd->[2]);
         return;
     }
-    Irssi::window_find_item($cmd->[1])->command(join(' ', 'exec - -o', $cmd->[2], @args);
+    Irssi::window_find_item($cmd->[1])->command(join(' ', 'exec - -o', $cmd->[2], @args));
 }
 
 Irssi::signal_add_last("event privmsg", "event_privmsg");
