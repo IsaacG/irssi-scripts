@@ -32,7 +32,7 @@ sub message_public {
 	while ($msg =~ m/\G(\S+)(\s*)/g)
 	{
 		($word, $ws) = ($1, $2); # word, whitespace
-		next unless ($word =~ /^$regex$/g);
+		next unless ($word =~ /^$regex$/);
 		$word = "http://$word" unless ( $word =~ qr(^https?://) );
 
 		eval{ $response = $ua->get($word) };
