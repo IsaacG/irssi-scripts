@@ -26,8 +26,9 @@ my $regex   = qr{\b((?:https?://|www\.)[-~=\/a-zA-Z0-9.:_?&%,#+]+)\b};
 sub message_public {
     my ($server, $msg, $nick, $mask, $target) = @_;
 
-	my $out = "";
 	my ($word, $ws, $title, $response);
+	$msg =~ s/^(\s*)//; # Strip leading spaces at the begining of the line
+	my $out = $1;
 	while ($msg =~ m/\G(\S+)(\s*)/g)
 	{
 		($word, $ws) = ($1, $2); # word, whitespace
