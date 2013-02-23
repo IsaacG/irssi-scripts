@@ -25,15 +25,30 @@ sub list_start {
 
 sub list_event {
     my ( $server, $data, $server_name ) = @_;
-	my ( $nick, $name, $size, $modes, $desc ) = split ( / /, $data, 5 );
+	my ( $meta, $more ) = split ( / :/, $data, 2 );
+	my ( $nick, $name, $size ) = split ( / /, $meta, 3 );
 	$list{ $name }{'size'} = $size;
+
+	$more =~ /^[^[]*\[([^]]*)\][^ ]* *([^ ].*)$/;
+	my $modes = $1;
+	$list{ $name }{'desc'} = $2;
+
+	$modes =~ s/ +$//;
 	$list{ $name }{'modes'} = $modes;
-	$list{ $name }{'desc'} = $desc;
 }
 
 sub list_end {
+
 	for my $name ( sort { $list{ $a }{'size'} <=> $list{ $b }{'size'} } keys %list ) {
-		Irssi::print ( sprintf ( "%d: %s (%s)", $list{ $name }{'size'}, $list{ $name }{'desc'}, $list{ $name }{'modes'} ) );
+		my $msg = sprintf (
+			"%d %s: %s (%s)",
+			$list{ $name }{'size'},
+			$name,
+			$list{ $name }{'desc'},
+			$list{ $name }{'modes'}
+		);
+
+		Irssi::print ( $msg, MSGLEVEL_CRAP );
 	}
 }
 
