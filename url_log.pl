@@ -177,10 +177,12 @@ sub do_auto_head
 sub log_to_file
 {
     my ($nick, $target, $text) = @_;
-    my ($lfile) = glob Irssi::settings_get_str("url_log_file");
+    my $lfile = Irssi::settings_get_str("url_log_file");
+
+    $lfile = strftime ( $lfile, localtime() );
+    ( $lfile ) = glob ( $lfile );
 
     if ( open(LFD, ">> $lfile") ) {
-
         my %h = {
             time => time,
             nick => $nick,
