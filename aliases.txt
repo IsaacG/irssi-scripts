@@ -1,0 +1,21 @@
+A collection of aliases I put together
+
+# These three are used to edit the scrolback buffer. I use it to read/clear out my syslog window.
+# Remove the top line in the scrollback
+rmline = "/script exec \\$tbv = Irssi::active_win()->view()\\; if(\\$tbv->get_lines){\\$tbv->remove_line(\\$tbv->get_lines)\\; \\$tbv->redraw()\\;}";
+# Move the top line to the end
+rollline = "/script exec \\$tbv = Irssi::active_win()->view()\\; Irssi::active_win()->print(\\$tbv->get_lines->get_text(0), PUBLIC)\\; \\$tbv->remove_line(\\$tbv->get_lines)\\; \\$tbv->redraw();";
+# Remove the last line in the scrollback
+rmlast = "/script exec \\$tbv = Irssi::active_win()->view()\\; if (\\$la = \\$tbv->get_lines){\\$la = \\$lb while(\\$lb = \\$la->next())\\; \\$tbv->remove_line(\\$la)\\; \\$tbv->redraw()\\;}";
+
+# Switch to the next window that has a QUERY (usually a PM window)
+next_query = "/script exec @all = sort { \\$a->{refnum} <=> \\$b->{refnum} } grep { grep {\\$_->{type} eq \"QUERY\"} \\$_->items() } Irssi::windows()\\; @some = grep {\\$_->{refnum} > Irssi::active_win->{refnum}} @all\\; if (@all) { @some ? \\$some[0]->set_active : \\$all[0]->set_active }";
+
+# Show active servers and what nick it has. Useful for fixing up post-netsplit when your nick gets mangled
+snicks = "script exec for \\$a ( Irssi::servers() ) { printf \"%s: %s\", \\$a->{'tag'}, \\$a->{'nick'} }";
+
+# List all windows and *all* items in the window
+witems = "script exec for \\$w ( sort { \\$a->{refnum} <=> \\$b->{refnum} } Irssi::windows() ) { for \\$i ( \\$w->items() ) { print \\$w->{refnum} . \": \" . \\$i->{name} } }";
+
+# Remove windows that are empty (ie no items) and the window name is ""
+killdeadwindows = "script exec for \\$w ( grep { ! ( \\$_->items() || \\$_->{name} ne \"\" ) } Irssi::windows() ) { \\$w->destroy() }";
