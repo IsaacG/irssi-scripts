@@ -4,20 +4,20 @@ use POSIX;
 use vars qw($VERSION %IRSSI); 
 use Data::Dumper;
 
-$VERSION = "0.01";
+$VERSION = "0.02";
 %IRSSI = (
     authors     => "Isaac Good",
-    contact     => "irssi\@isaac.otherinbox.com", 
+    contact     => "irssi\@isaacgood.com", 
     name        => "autostick",
     description => "Autostick window items on creation",
     license     => "Public Domain",
     url         => "http://irssi.org/",
-    changed     => "1291087764" # localtime that
+    changed     => "2015-01-03" # localtime that
 );
 
 sub stickme { 
     my ($window, $window_item) = @_;
-    Irssi::command("window " . $window_item->{'refnum'} . " stick");
+    Irssi::command("^window stick " . $window->{'refnum'});
 }
 
 Irssi::signal_add("window item new", "stickme" );
