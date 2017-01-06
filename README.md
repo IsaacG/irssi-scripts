@@ -5,6 +5,8 @@ Random irssi scripts
 
 * aliases.txt
  * A collection of aliases I wrote. Probably well out of date all the time.
+* allwin.pl
+ * Adapted from hilightwin.pl, print a copy of all (incoming) messages to one window for a general overview of all your channels and queries.
 * channotify.pl
  * Script that helps see the /notify list of people, filtered by shared channels.
 * lastSpoke.pl
