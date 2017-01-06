@@ -11,7 +11,7 @@ $VERSION = "0.02";
     name        => "autostick",
     description => "Autostick window items on creation",
     license     => "Public Domain",
-    url         => "http://irssi.org/",
+    url         => "http://www.github.com/IsaacG",
     changed     => "2015-01-03" # localtime that
 );
 

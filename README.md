@@ -9,6 +9,8 @@ Random irssi scripts
  * Adapted from hilightwin.pl, print a copy of all (incoming) messages to one window for a general overview of all your channels and queries.
 * aspell.pl
  * Early attempt at adding a spellchecker. DO NOT USE. https://github.com/irssi/scripts.irssi.org/blob/master/scripts/aspell.pl is loosely based on this and far, far better.
+* autostick.pl
+ * Auto-set the sticky flag on new windows upon creation. Useful when you got splits.
 * channotify.pl
  * Script that helps see the /notify list of people, filtered by shared channels.
 * gmail-win.pl
