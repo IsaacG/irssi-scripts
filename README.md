@@ -19,6 +19,8 @@ Random irssi scripts
  * Sort the /list output (list of channels on the network) by channel size.
 * pushover.pl
  * Push hilight messages (and others) to Pushover.net (which pushes it to your phone/computer).
+* reorder.pl
+ * Window management tool. Allows you to easily store your list of windows with their numbers to a textfile or read window numbers from the file to reorder existing windows. Very useful for reordering/renumbering your windows or saving the ordering/numbering. Uses two commands: `/layout_save <filename>` and `/layout_load <filename>`. Same file as found at scripts.irssi.org.
 * run.pl
  * Random collection of shell commands to run, triggered by a "trigger" like !uptime
 * url_log.pl
